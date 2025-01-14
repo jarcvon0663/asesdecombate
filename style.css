@@ -29,6 +29,11 @@ canvas {
     flex-direction: column;
 }
 
+#startScreen img {
+    width: 20%;
+    height: 40%;
+}
+
 #startScreen h1 {
     font-size: 36px;
     margin-bottom: 20px;
@@ -129,6 +134,12 @@ canvas {
   
   /* Estilo para pantallas aún más pequeñas (móviles) */
   @media screen and (max-width: 480px) {
+
+    #startScreen img {
+        width: 60%;
+        height: 30%;
+    }
+
     #joystickContainer {
       left: 80px;  /* Más cerca del borde izquierdo */
       bottom: 80px;  /* Ajustado más arriba */
