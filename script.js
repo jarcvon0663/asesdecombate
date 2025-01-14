@@ -68,8 +68,8 @@ function spawnMunicion() {
     municion = {
       x: Math.random() * (canvas.width - 50),
       y: Math.random() * (canvas.height - 50),
-      width: 30,
-      height: 30,
+      width: 40,
+      height: 50,
     };
   }
 }
@@ -222,29 +222,6 @@ function drawPlayer() {
       player.radius * 2,
       player.radius * 2
     );
-  }
-}
-
-// Dibujar misiles
-function drawMissiles() {
-  for (let missile of missiles) {
-    ctx.drawImage(
-      missileImage,
-      missile.x,
-      missile.y,
-      missile.width,
-      missile.height
-    );
-  }
-}
-
-// Actualizar misiles
-function updateMissiles() {
-  for (let i = missiles.length - 1; i >= 0; i--) {
-    missiles[i].y -= missiles[i].speed;
-    if (missiles[i].y < 0) {
-      missiles.splice(i, 1);
-    }
   }
 }
 
