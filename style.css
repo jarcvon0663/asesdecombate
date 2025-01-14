@@ -58,14 +58,13 @@ canvas {
     position: absolute;
     left: 1100px;   /* A la izquierda */
     top: 500px;   /* Un poco más abajo que el joystick */
-    padding: 5px 5px;
-    background-color: gray;  /* Fondo gris */
+    background: none;
     border: none;
-    border-radius: 100px;
-    color: white;
+    width: 80px;
+    height: 80px;
     font-size: 24px;
     cursor: pointer;
-    z-index: 10;
+    
   }
   
   #shootButton:hover {
@@ -112,7 +111,6 @@ canvas {
         right: 30px;  /* Más cerca del borde derecho */
         bottom: 80px;  /* Ajustado un poco más arriba */
         font-size: 14px;
-        padding: 8px 15px;
     }
   }
   
@@ -124,9 +122,8 @@ canvas {
     }
   
     #shootButton {
-      left: 300px;   /* A la izquierda */
-      top: 800px;   /* Ajustado más arriba */
+      left: 270px;   /* A la izquierda */
+      bottom: 90px;   /* Ajustado más arriba */
       font-size: 20px; /* Aún más pequeño */
-      padding: 6px 10px;  /* Aún más pequeño */
     }
   }
