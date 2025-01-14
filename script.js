@@ -184,12 +184,6 @@ function updateMissiles() {
   }
 }
 
-// Controles del jugador (Táctiles y Joystick)
-let touchStartX = 0;
-let touchStartY = 0;
-let touchMoveX = 0;
-let touchMoveY = 0;
-
 document.getElementById("startButton").addEventListener("click", () => {
   if (!gameStarted) {
     gameStarted = true;
@@ -212,7 +206,7 @@ const joystick = nipplejs.create({
 joystick.on("move", (evt, data) => {
   if (data.direction) {
     // Movimiento en todas las direcciones, incluyendo diagonales
-    const moveAmount = 10;
+    const moveAmount = 3;
     if (data.direction.angle.includes("up") && player.y - player.radius > 0)
       player.y -= moveAmount;
     if (data.direction.angle.includes("down") && player.y + player.radius < canvas.height)

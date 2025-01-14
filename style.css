@@ -45,32 +45,32 @@ canvas {
     background-color: #45a049;
 }
 
-/* Contenedor del joystick */
 #joystickContainer {
     position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 200px;
+    left: 100px;    /* Cerca del borde izquierdo */
+    bottom: 100px; /* Más cerca de la parte inferior */
+    width: 150px;
+    height: 150px;
     z-index: 10;
 }
-
-/* Botón de disparo */
-#shootButton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #ff5722;
-    /* Color llamativo */
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    font-size: 30px;
+  
+  #shootButton {
+    position: absolute;
+    left: 1100px;   /* A la izquierda */
+    top: 500px;   /* Un poco más abajo que el joystick */
+    padding: 5px 5px;
+    background-color: gray;  /* Fondo gris */
+    border: none;
+    border-radius: 100px;
     color: white;
+    font-size: 24px;
     cursor: pointer;
-}
-
+    z-index: 10;
+  }
+  
+  #shootButton:hover {
+    background-color: darkgray;  /* Fondo más oscuro al pasar el ratón */
+  }
 
 
 #gameOverScreen {
@@ -100,3 +100,33 @@ canvas {
     font-size: 18px;
     cursor: pointer;
 }
+
+/* Estilo para pantallas más pequeñas */
+@media screen and (max-width: 768px) {
+    #joystickContainer {
+        left: 30px;  /* Más cerca del borde izquierdo */
+        bottom: 80px; /* Ajustado un poco más arriba */
+    }
+
+    #shootButton {
+        right: 30px;  /* Más cerca del borde derecho */
+        bottom: 80px;  /* Ajustado un poco más arriba */
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+  }
+  
+  /* Estilo para pantallas aún más pequeñas (móviles) */
+  @media screen and (max-width: 480px) {
+    #joystickContainer {
+      left: 100px;  /* Más cerca del borde izquierdo */
+      bottom: 100px;  /* Ajustado más arriba */
+    }
+  
+    #shootButton {
+      left: 300px;   /* A la izquierda */
+      top: 800px;   /* Ajustado más arriba */
+      font-size: 20px; /* Aún más pequeño */
+      padding: 6px 10px;  /* Aún más pequeño */
+    }
+  }
