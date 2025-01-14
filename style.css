@@ -136,8 +136,8 @@ canvas {
   @media screen and (max-width: 480px) {
 
     #startScreen img {
-        width: 60%;
-        height: 30%;
+        width: 40%;
+        height: 20%;
     }
 
     #joystickContainer {
