@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Combate Aéreo</title>
   <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.8.4/dist/nipplejs.min.js"></script>
+
 </head>
+
 <body>
   <div id="startScreen">
     <h1>Combate Aéreo</h1>
     <p>¡Pulsa el botón para iniciar!</p>
     <button id="startButton">Iniciar</button>
   </div>
-  
-  
+
+  <!-- Contenedor del Joystick -->
+  <div id="joystickContainer" style="position: fixed;"></div>
+
+
+  <!-- Botón de disparo -->
+  <button id="shootButton">Disparar</button>
+
+
   <div id="gameOverScreen">
     <h1>¡Game Over!</h1>
     <button onclick="restartGame()">Jugar de nuevo</button>
@@ -24,4 +35,5 @@
   <script src="./script.js"></script>
 
 </body>
+
 </html>

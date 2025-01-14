@@ -184,13 +184,12 @@ function updateMissiles() {
   }
 }
 
-// Controles del jugador (Táctiles)
+// Controles del jugador (Táctiles y Joystick)
 let touchStartX = 0;
 let touchStartY = 0;
 let touchMoveX = 0;
 let touchMoveY = 0;
 
-// Iniciar el juego al hacer clic en el botón "Iniciar"
 document.getElementById("startButton").addEventListener("click", () => {
   if (!gameStarted) {
     gameStarted = true;
@@ -201,55 +200,47 @@ document.getElementById("startButton").addEventListener("click", () => {
   }
 });
 
+// Inicializa el joystick
+const joystick = nipplejs.create({
+  zone: document.getElementById("joystickContainer"),
+  mode: "static",
+  position: { left: "10px", bottom: "10px" }, // Cambiado para estar en la esquina inferior izquierda
+  size: 150,
+});
+
+// Detecta el movimiento del joystick
+joystick.on("move", (evt, data) => {
+  if (data.direction) {
+    // Movimiento en todas las direcciones, incluyendo diagonales
+    const moveAmount = 10;
+    if (data.direction.angle.includes("up") && player.y - player.radius > 0)
+      player.y -= moveAmount;
+    if (data.direction.angle.includes("down") && player.y + player.radius < canvas.height)
+      player.y += moveAmount;
+    if (data.direction.angle.includes("left") && player.x - player.radius > 0)
+      player.x -= moveAmount;
+    if (data.direction.angle.includes("right") && player.x + player.radius < canvas.width)
+      player.x += moveAmount;
+  }
+});
+
+// Botón de disparo
+document.getElementById("shootButton").addEventListener("click", () => {
+  missiles.push({ x: player.x - 5, y: player.y - 20, width: 10, height: 20, speed: 5 });
+  missileSound.play(); // Reproducir sonido de misil
+});
+
 // Controlar el movimiento del jugador y disparos con las teclas
 document.addEventListener("keydown", (e) => {
-  if (!gameStarted) {
-    return; // El juego no comienza si no se ha iniciado
-  }
+  if (!gameStarted) return;
 
-  if (e.key === "ArrowLeft" && player.x - player.radius > 0) player.x -= 10;
-  if (e.key === "ArrowRight" && player.x + player.radius < canvas.width)
-    player.x += 10;
-  if (e.key === "ArrowUp" && player.y - player.radius > 0) player.y -= 10;
-  if (e.key === "ArrowDown" && player.y + player.radius < canvas.height)
-    player.y += 10;
+  const moveAmount = 10;
+  if (e.key === "ArrowLeft" && player.x - player.radius > 0) player.x -= moveAmount;
+  if (e.key === "ArrowRight" && player.x + player.radius < canvas.width) player.x += moveAmount;
+  if (e.key === "ArrowUp" && player.y - player.radius > 0) player.y -= moveAmount;
+  if (e.key === "ArrowDown" && player.y + player.radius < canvas.height) player.y += moveAmount;
 
   if (e.key === " " || e.key === "Enter") {
-    missiles.push({
-      x: player.x - 5,
-      y: player.y - 20,
-      width: 10,
-      height: 20,
-      speed: 5,
-    });
-    missileSound.play(); // Reproducir sonido de misil
-  }
-});
-
-// Evento táctil
-canvas.addEventListener("touchstart", (e) => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-});
-
-canvas.addEventListener("touchmove", (e) => {
-  touchMoveX = e.touches[0].clientX - touchStartX;
-  touchMoveY = e.touches[0].clientY - touchStartY;
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-});
-
-canvas.addEventListener("touchend", () => {
-  if (!gameStarted) {
-    gameStarted = true;
-    document.getElementById("startScreen").style.display = "none";
-    backgroundMusic.loop = true;
-    backgroundMusic.play(); // Iniciar música de fondo
-    gameLoop();
-    return;
-  }
-
-  if (touchMoveY > 30) {
     missiles.push({
       x: player.x - 5,
       y: player.y - 20,
@@ -269,31 +260,26 @@ function gameLoop() {
     spawnEnemies();
     updateEnemies();
     updateMissiles();
-    drawPlayer();
     drawEnemies();
+    drawPlayer();
     drawMissiles();
     requestAnimationFrame(gameLoop);
   } else {
-    showGameOverScreen();
+    document.getElementById("gameOverScreen").style.display = "flex";
   }
-}
-
-// Mostrar pantalla de Game Over
-function showGameOverScreen() {
-  const gameOverScreen = document.getElementById("gameOverScreen");
-  gameOverScreen.style.display = "flex"; // Mostrar la pantalla de Game Over
 }
 
 // Reiniciar el juego
 function restartGame() {
   gameOver = false;
   gameStarted = false;
-  enemies.length = 0;
-  missiles.length = 0;
+  player.isExploding = false;
   player.x = canvas.width / 2;
   player.y = canvas.height - 50;
-  player.isExploding = false;
-  player.explosionTimer = 0;
+  enemies.length = 0;
+  missiles.length = 0;
   document.getElementById("gameOverScreen").style.display = "none";
-  document.getElementById("startScreen").style.display = "flex"; // Mostrar la pantalla de inicio
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
+  document.getElementById("startScreen").style.display = "flex";
 }
