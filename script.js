@@ -37,6 +37,12 @@ const missiles = [];
 const missileImage = new Image();
 missileImage.src = "./img/misil.png";
 
+// Munición
+let missileCount = 20; // Contador de misiles
+const municionImage = new Image();
+municionImage.src = "./img/municion.png"; // Imagen del ítem de munición
+let municion = null; // Objeto que contiene la munición
+
 let gameOver = false;
 let gameStarted = false;
 let score = 0;  // Puntuación inicial
@@ -53,6 +59,18 @@ function spawnEnemies() {
       explosionTimer: 0,
     };
     enemies.push(enemy);
+  }
+}
+
+// Crear munición cuando el contador de misiles llegue a 5
+function spawnMunicion() {
+  if (missileCount <= 5 && !municion) {
+    municion = {
+      x: Math.random() * (canvas.width - 50),
+      y: Math.random() * (canvas.height - 50),
+      width: 30,
+      height: 30,
+    };
   }
 }
 
@@ -117,6 +135,48 @@ function updateEnemies() {
         enemy.y = -50;
         enemy.x = Math.random() * (canvas.width - 50);
       }
+    }
+  }
+}
+
+// Actualizar y dibujar munición
+function updateMunicion() {
+  if (municion) {
+    // Colisión de munición con el jugador
+    if (
+      areCirclesColliding(player.x, player.y, player.radius, municion.x, municion.y, 15)
+    ) {
+      missileCount += 20; // Aumentar misiles en +20
+      municion = null; // Desaparecer el ítem de munición después de ser recogido
+    }
+  }
+}
+
+function drawMunicion() {
+  if (municion) {
+    ctx.drawImage(municionImage, municion.x, municion.y, municion.width, municion.height);
+  }
+}
+
+// Dibujar misiles
+function drawMissiles() {
+  for (let missile of missiles) {
+    ctx.drawImage(
+      missileImage,
+      missile.x,
+      missile.y,
+      missile.width,
+      missile.height
+    );
+  }
+}
+
+// Actualizar misiles
+function updateMissiles() {
+  for (let i = missiles.length - 1; i >= 0; i--) {
+    missiles[i].y -= missiles[i].speed;
+    if (missiles[i].y < 0) {
+      missiles.splice(i, 1);
     }
   }
 }
@@ -195,6 +255,13 @@ function drawScore() {
   ctx.fillText("Score: " + score, 20, 40);
 }
 
+// Función para dibujar el contador de misiles
+function drawMissileCount() {
+  ctx.fillStyle = "white";
+  ctx.font = "30px Arial";
+  ctx.fillText("Misiles: " + missileCount, canvas.width - 150, 40);
+}
+
 document.getElementById("startButton").addEventListener("click", () => {
   if (!gameStarted) {
     gameStarted = true;
@@ -234,15 +301,22 @@ joystick.on("move", (evt, data) => {
 // Botón de disparo
 // Evento de disparo para desktop y móvil
 document.getElementById("shootButton").addEventListener("click", () => {
+  if (missileCount > 0) { // Verifica si tienes misiles disponibles
     missiles.push({ x: player.x - 5, y: player.y - 20, width: 10, height: 20, speed: 5 });
+    missileCount--; // Descontar un misil
     missileSound.play(); // Reproducir sonido de misil
-  });
-  
-  // También agregar para dispositivos táctiles (móviles)
-  document.getElementById("shootButton").addEventListener("touchstart", () => {
+  }
+});
+
+// También agregar para dispositivos táctiles (móviles)
+document.getElementById("shootButton").addEventListener("touchstart", () => {
+  if (missileCount > 0) { // Verifica si tienes misiles disponibles
     missiles.push({ x: player.x - 5, y: player.y - 20, width: 10, height: 20, speed: 5 });
+    missileCount--; // Descontar un misil
     missileSound.play(); // Reproducir sonido de misil
-  });
+  }
+});
+
   
 
 // Controlar el movimiento del jugador y disparos con las teclas
@@ -275,10 +349,14 @@ function gameLoop() {
     spawnEnemies();
     updateEnemies();
     updateMissiles();
+    updateMunicion(); // Actualizar la munición
+    spawnMunicion(); // Verificar si aparece la munición
     drawEnemies();
     drawPlayer();
     drawMissiles();
     drawScore();
+    drawMissileCount(); // Dibujar el contador de misiles
+    drawMunicion(); // Dibujar el ítem de munición si existe
     requestAnimationFrame(gameLoop);
   } else {
     // Mostrar la pantalla de Game Over
