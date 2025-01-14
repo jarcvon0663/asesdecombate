@@ -39,6 +39,7 @@ missileImage.src = "./img/misil.png";
 
 let gameOver = false;
 let gameStarted = false;
+let score = 0;  // Puntuación inicial
 
 // Crear enemigos
 function spawnEnemies() {
@@ -72,6 +73,7 @@ function updateEnemies() {
         const index = enemies.indexOf(enemy);
         if (index > -1) {
           enemies.splice(index, 1);
+          score += 10; // Incrementar el puntaje por destruir un enemigo
         }
       }
     } else {
@@ -186,6 +188,13 @@ function updateMissiles() {
   }
 }
 
+// Función para dibujar la puntuación en la pantalla
+function drawScore() {
+  ctx.fillStyle = "white";
+  ctx.font = "30px Arial";
+  ctx.fillText("Score: " + score, 20, 40);
+}
+
 document.getElementById("startButton").addEventListener("click", () => {
   if (!gameStarted) {
     gameStarted = true;
@@ -269,9 +278,13 @@ function gameLoop() {
     drawEnemies();
     drawPlayer();
     drawMissiles();
+    drawScore();
     requestAnimationFrame(gameLoop);
   } else {
+    // Mostrar la pantalla de Game Over
     document.getElementById("gameOverScreen").style.display = "flex";
+    // Mostrar la puntuación final en la pantalla de Game Over
+    document.getElementById("finalScore").textContent = "Puntuación final: " + score;
   }
 }
 
@@ -284,8 +297,10 @@ function restartGame() {
   player.y = canvas.height - 50;
   enemies.length = 0;
   missiles.length = 0;
+  score = 0;  // Reiniciar el puntaje
   document.getElementById("gameOverScreen").style.display = "none";
   backgroundMusic.pause();
   backgroundMusic.currentTime = 0;
   document.getElementById("startScreen").style.display = "flex";
 }
+
