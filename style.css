@@ -57,15 +57,15 @@ canvas {
     position: absolute;
     left: 100px;    /* Cerca del borde izquierdo */
     bottom: 100px; /* Más cerca de la parte inferior */
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     z-index: 10;
 }
   
 #shootButton {
     position: absolute;
-    left: 1100px;
-    top: 500px;
+    left: 80%; /* Ajusta según sea necesario */
+    bottom: 20%; /* Ajusta según sea necesario */
     padding: 0;
     background: none;
     border: none;
@@ -74,11 +74,17 @@ canvas {
     cursor: pointer;
     z-index: 10;
     touch-action: manipulation; /* Evita comportamientos adicionales, como el zoom */
-  }
-  
-  #shootButton:hover {
-    color: yellow;
-  }
+    outline: none; /* Elimina el recuadro al enfocar o presionar */
+}
+
+#shootButton:hover {
+    color: white; /* Evita cualquier cambio en el color */
+}
+
+#shootButton:focus {
+    outline: none; /* Asegura que no haya contorno al hacer clic */
+}
+
   
 
 
@@ -118,8 +124,8 @@ canvas {
     }
 
     #shootButton {
-        right: 30px;  /* Más cerca del borde derecho */
-        bottom: 80px;  /* Ajustado un poco más arriba */
+        left: 70%;  /* Más cerca del borde derecho */
+        bottom: 12%;  /* Ajustado un poco más arriba */
         font-size: 14px;
     }
   }
@@ -127,13 +133,13 @@ canvas {
   /* Estilo para pantallas aún más pequeñas (móviles) */
   @media screen and (max-width: 480px) {
     #joystickContainer {
-      left: 100px;  /* Más cerca del borde izquierdo */
-      bottom: 100px;  /* Ajustado más arriba */
+      left: 90px;  /* Más cerca del borde izquierdo */
+      bottom: 90px;  /* Ajustado más arriba */
     }
   
     #shootButton {
-      left: 270px;   /* A la izquierda */
-      bottom: 90px;   /* Ajustado más arriba */
+      left: 70%;   /* A la izquierda */
+      bottom: 12%;   /* Ajustado más arriba */
       font-size: 20px; /* Aún más pequeño */
     }
   }
