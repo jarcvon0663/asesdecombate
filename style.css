@@ -137,6 +137,6 @@ canvas {
     #shootButton {
       left: 70%;   /* A la izquierda */
       bottom: 10%;   /* Ajustado más arriba */
-      font-size: 30px; /* Aún más pequeño */
+      font-size: 40px; /* Aún más pequeño */
     }
   }
