@@ -1,3 +1,11 @@
+html, body {
+    overflow: hidden;
+    height: 100%; /* Asegura que todo el contenido ocupe el 100% de la pantalla */
+    margin: 0; /* Elimina márgenes para evitar espacios inesperados */
+    padding: 0; /* Elimina relleno */
+  }
+  
+
 canvas {
     display: block;
     margin: 0 auto;
@@ -42,7 +50,7 @@ canvas {
 }
 
 #startButton:hover {
-    background-color: #45a049;
+    background-color: none;
 }
 
 #joystickContainer {
@@ -54,22 +62,24 @@ canvas {
     z-index: 10;
 }
   
-  #shootButton {
+#shootButton {
     position: absolute;
-    left: 1100px;   /* A la izquierda */
-    top: 500px;   /* Un poco más abajo que el joystick */
+    left: 1100px;
+    top: 500px;
+    padding: 0;
     background: none;
     border: none;
-    width: 80px;
-    height: 80px;
-    font-size: 24px;
+    color: white;
+    font-size: 40px;
     cursor: pointer;
-    
+    z-index: 10;
+    touch-action: manipulation; /* Evita comportamientos adicionales, como el zoom */
   }
   
   #shootButton:hover {
-    background-color: darkgray;  /* Fondo más oscuro al pasar el ratón */
+    color: yellow;
   }
+  
 
 
 #gameOverScreen {
