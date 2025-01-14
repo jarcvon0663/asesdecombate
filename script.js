@@ -190,6 +190,8 @@ document.getElementById("startButton").addEventListener("click", () => {
     document.getElementById("startScreen").style.display = "none";
     backgroundMusic.loop = true;
     backgroundMusic.play(); // Iniciar música de fondo
+    engineSound.loop = true;
+    engineSound.play();
     gameLoop(); // Comienza el bucle del juego
   }
 });
@@ -202,21 +204,26 @@ const joystick = nipplejs.create({
   size: 150,
 });
 
+
 // Detecta el movimiento del joystick
 joystick.on("move", (evt, data) => {
-  if (data.direction) {
-    // Movimiento en todas las direcciones, incluyendo diagonales
-    const moveAmount = 3;
-    if (data.direction.angle.includes("up") && player.y - player.radius > 0)
-      player.y -= moveAmount;
-    if (data.direction.angle.includes("down") && player.y + player.radius < canvas.height)
-      player.y += moveAmount;
-    if (data.direction.angle.includes("left") && player.x - player.radius > 0)
-      player.x -= moveAmount;
-    if (data.direction.angle.includes("right") && player.x + player.radius < canvas.width)
-      player.x += moveAmount;
-  }
-});
+    if (data.force > 0) {
+      // Obtén el movimiento normalizado
+      const normalizedX = data.vector.x * 4; // Eje X no invertido
+      const normalizedY = -data.vector.y * 4; // Invierte solo el eje Y
+  
+      // Movimiento en el eje X
+      if (player.x + normalizedX - player.radius >= 0 && player.x + normalizedX + player.radius <= canvas.width) {
+        player.x += normalizedX;
+      }
+  
+      // Movimiento en el eje Y
+      if (player.y + normalizedY - player.radius >= 0 && player.y + normalizedY + player.radius <= canvas.height) {
+        player.y += normalizedY;
+      }
+    }
+  });
+  
 
 // Botón de disparo
 document.getElementById("shootButton").addEventListener("click", () => {
