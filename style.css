@@ -85,9 +85,6 @@ canvas {
     outline: none; /* Asegura que no haya contorno al hacer clic */
 }
 
-  
-
-
 #gameOverScreen {
     position: absolute;
     top: 0;
@@ -125,7 +122,7 @@ canvas {
 
     #shootButton {
         left: 70%;  /* Más cerca del borde derecho */
-        bottom: 12%;  /* Ajustado un poco más arriba */
+        bottom: 10%;  /* Ajustado un poco más arriba */
         font-size: 14px;
     }
   }
@@ -133,13 +130,13 @@ canvas {
   /* Estilo para pantallas aún más pequeñas (móviles) */
   @media screen and (max-width: 480px) {
     #joystickContainer {
-      left: 90px;  /* Más cerca del borde izquierdo */
-      bottom: 90px;  /* Ajustado más arriba */
+      left: 80px;  /* Más cerca del borde izquierdo */
+      bottom: 80px;  /* Ajustado más arriba */
     }
   
     #shootButton {
       left: 70%;   /* A la izquierda */
-      bottom: 12%;   /* Ajustado más arriba */
-      font-size: 20px; /* Aún más pequeño */
+      bottom: 10%;   /* Ajustado más arriba */
+      font-size: 30px; /* Aún más pequeño */
     }
   }

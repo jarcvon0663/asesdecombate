@@ -91,6 +91,8 @@ function updateEnemies() {
         player.explosionTimer = 0;
         gameOver = true; // Cambiar el estado del juego a "Game Over"
         gameOverSound.play(); // Reproducir el sonido de "Game Over"
+        backgroundMusic.pause(); // Se detiene la música de fondo
+        engineSound.pause(); // Se detiene el sonido del motor
       }
 
       for (let i = missiles.length - 1; i >= 0; i--) {
@@ -200,36 +202,39 @@ document.getElementById("startButton").addEventListener("click", () => {
 const joystick = nipplejs.create({
   zone: document.getElementById("joystickContainer"),
   mode: "static",
-  position: { left: "10px", bottom: "10px" }, // Cambiado para estar en la esquina inferior izquierda
-  size: 150,
+  position: { left: "10px", bottom: "10px" }, 
+  size: 120,
 });
-
 
 // Detecta el movimiento del joystick
 joystick.on("move", (evt, data) => {
-    if (data.force > 0) {
-      // Obtén el movimiento normalizado
-      const normalizedX = data.vector.x * 4; // Eje X no invertido
-      const normalizedY = -data.vector.y * 4; // Invierte solo el eje Y
-  
-      // Movimiento en el eje X
-      if (player.x + normalizedX - player.radius >= 0 && player.x + normalizedX + player.radius <= canvas.width) {
-        player.x += normalizedX;
-      }
-  
-      // Movimiento en el eje Y
-      if (player.y + normalizedY - player.radius >= 0 && player.y + normalizedY + player.radius <= canvas.height) {
-        player.y += normalizedY;
-      }
+  if (data.force > 0) {
+    const normalizedX = data.vector.x * 4; 
+    const normalizedY = -data.vector.y * 4;
+
+    if (player.x + normalizedX - player.radius >= 0 && player.x + normalizedX + player.radius <= canvas.width) {
+      player.x += normalizedX;
     }
-  });
-  
+
+    if (player.y + normalizedY - player.radius >= 0 && player.y + normalizedY + player.radius <= canvas.height) {
+      player.y += normalizedY;
+    }
+  }
+});
 
 // Botón de disparo
+// Evento de disparo para desktop y móvil
 document.getElementById("shootButton").addEventListener("click", () => {
-  missiles.push({ x: player.x - 5, y: player.y - 20, width: 10, height: 20, speed: 5 });
-  missileSound.play(); // Reproducir sonido de misil
-});
+    missiles.push({ x: player.x - 5, y: player.y - 20, width: 10, height: 20, speed: 5 });
+    missileSound.play(); // Reproducir sonido de misil
+  });
+  
+  // También agregar para dispositivos táctiles (móviles)
+  document.getElementById("shootButton").addEventListener("touchstart", () => {
+    missiles.push({ x: player.x - 5, y: player.y - 20, width: 10, height: 20, speed: 5 });
+    missileSound.play(); // Reproducir sonido de misil
+  });
+  
 
 // Controlar el movimiento del jugador y disparos con las teclas
 document.addEventListener("keydown", (e) => {
